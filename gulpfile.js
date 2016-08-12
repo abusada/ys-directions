@@ -7,11 +7,11 @@ var buildBranchName = 'dist';
 
 gulp.task('publish', ['build', 'buildBranch'], function() {
     git.checkout(buildBranchName, function(err) {
-        if (err)
-          throw err;
-        else git.push('origin', buildBranchName, function(err) {
-            if (err) throw err;
-        });
+        // if (err)
+        //   throw err;
+        // else git.push('origin', buildBranchName, function(err) {
+        //     if (err) throw err;
+        // });
     });
 });
 
