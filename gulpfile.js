@@ -2,11 +2,19 @@ const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 var browserSync = require('browser-sync');
 var buildBranch = require('gulp-build-branch');
+var git = require('gulp-git');
 
-gulp.task('publish', ['build'], function() {
-  return buildBranch({
-    folder: 'dist',
-    branch: 'dist'
+var buildBranchName = 'dist';
+
+gulp.task('publish', ['build', 'buildBranch'], function() {
+  git.checkout(buildBranchName, {args:'-b'}, function (err) {
+    if (err) {
+      throw err;
+    } else {
+      git.push('origin', 'master', function (err) {
+        if (err) throw err;
+      });
+    }
   });
 });
 
@@ -15,6 +23,13 @@ gulp.task('copy', function () {
     .src(['./*', '!app'])
     .pipe(gulp.dest('dist'));
 });
+
+gulp.task('buildBranch', function(){
+  return buildBranch({
+    folder: buildBranchName,
+    branch: buildBranchName
+  });
+})
 
 gulp.task('build', ['copy'], function() {
   return gulp.src(['dist/*.html'])
