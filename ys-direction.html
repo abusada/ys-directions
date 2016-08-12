@@ -1,0 +1,31 @@
+<html><head><link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/google-map/google-map-directions.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+
+<!--
+
+The 'ys-direction' uses google map directions service to display distance/time between two points.
+
+Example using src:
+
+    <ys-direction
+      travel-mode="WALKING"
+      start='{ "lat" : "", "lng" : "" }'
+      end='{ "lat" : "", "lng" : "" }'></ys-direction>
+
+@group Yamsafer Elements
+@element ys-direction
+@demo demo/index.html
+@hero hero.svg
+-->
+
+
+</head><body><dom-module id="ys-direction">
+  <template>
+    <google-map-directions id="mapDirectionsApi" language="[[language]]" api-key="[[apiKey]]" travel-mode="[[ travelMode ]]" start-address="[[ _latLng(start, _google) ]]" end-address="[[ _latLng(end, _google) ]]" response="{{_response}}"></google-map-directions>
+
+     [[ _resultText ]] <iron-icon icon="[[icon]]"></iron-icon>
+
+  </template>
+  </dom-module>
+<script src="ys-direction.js"></script></body></html>
