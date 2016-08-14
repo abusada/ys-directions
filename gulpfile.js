@@ -1,20 +1,21 @@
 const gulp = require('gulp');
+var git = require('gulp-git');
 const $ = require('gulp-load-plugins')();
 var browserSync = require('browser-sync');
 var buildBranch = require('gulp-build-branch');
-var git = require('gulp-git');
 var buildBranchName = 'dist';
 
-gulp.task('publish', ['build', 'buildBranch'], function() {
-    git.checkout(buildBranchName, function(err) {
+gulp.task('publish', [
+    'build',
+    'buildBranch'
+  ], function() {
+    git.checkout(buildBranchName, err => {
         if (err)
           throw err;
-        else git.push('origin', buildBranchName, function(err) {
-            if (err) {
+        git.push('origin', buildBranchName, err => {
+            if (err)
               throw err;
-            } else {
-              git.checkout('master');
-            }
+            git.checkout('master');
         });
     });
 });
