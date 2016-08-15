@@ -7,11 +7,25 @@
 The 'ys-direction' uses google map directions service to display distance/time between two points.
 
 Example using src:
-
+    ### Default component output
     <ys-direction
       travel-mode="WALKING"
       start='{ "lat" : "", "lng" : "" }'
       end='{ "lat" : "", "lng" : "" }'></ys-direction>
+
+    ### Custom component output
+    <template is="dom-bind">
+      <ys-direction
+        hide-output,
+        result={{ result }}
+        travel-mode="WALKING"
+        start='{ "lat" : "", "lng" : "" }'
+        end='{ "lat" : "", "lng" : "" }'></ys-direction>
+      <p>
+        It is {{ result.distance.text }} away,
+        Will take you {{ result.duration.text }} walking to get there, good luck
+      </p>
+    </template>
 
 @group Yamsafer Elements
 @element ys-direction
@@ -26,21 +40,22 @@ Example using src:
             .ys-direction-result {
               display: inline-flex;
               align-items: center;
-              background: rgba(0,0,0,0.1);
               padding: 2px 5px;
-              border-radius: 7px;
             }
             iron-icon {
               width: 20px;
               height: 20px;
             }
         </style>
+
         <google-map-directions id="mapDirectionsApi" language="[[language]]" api-key="[[apiKey]]" travel-mode="[[ travelMode ]]" start-address="[[ _latLng(start, _google) ]]" end-address="[[ _latLng(end, _google) ]]" response="{{_response}}"></google-map-directions>
 
-        <div class="ys-direction-result">
-            <iron-icon icon="[[icon]]"></iron-icon>
-            [[ result.duration ]], [[ result.distance ]]
-        </div>
+        <template is="dom-if" if="[[ !hideOutput ]]">
+          <div class="ys-direction-result">
+              <iron-icon icon="[[icon]]"></iron-icon>
+              [[ result.duration.text ]], [[ result.distance.text ]]
+          </div>
+        </template>
 
     </template>
     <script>
@@ -50,6 +65,15 @@ Example using src:
                 beforeRegister() {
                     this.is = 'ys-direction';
                     this.properties = {
+                        /**
+                         * Boolean to indicate whether the component should display text output
+                         * Sometime the component user want to have custom display, so just use the
+                         * @type {Object}
+                         */
+                        hideOutput : {
+                          type: Boolean,
+                          value: false
+                        },
                         /**
                          * Your mother toungue
                          */
@@ -115,7 +139,8 @@ Example using src:
                          * Rendered Text
                          */
                         result: {
-                            type: "String"
+                            type: "String",
+                            notify: true
                         },
                         /**
                          * Kol google jebt-ha hoon
@@ -137,10 +162,10 @@ Example using src:
                     this._render(shortestRoute);
                 }
                 _render(route) {
-                    let duration = route.legs[0].duration.text;
-                    let distance = route.legs[0].distance.text;
-                    let result = `${distance}, ${duration}`;
-                    console.log();
+                    // note here that the 'legs' term here has nothing to do with travelMode being WALKING :D
+                    // https://developers.google.com/maps/documentation/javascript/directions#Legs
+                    let duration = route.legs[0].duration;
+                    let distance = route.legs[0].distance;
                     this.set('result', {
                         duration: duration,
                         distance: distance

@@ -21,12 +21,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </head>
   <body unresolved>
 
-    <ys-direction
+    <h1> Default component output </h1>
+    <ys-direction result="{{result}}"
       end='{ "longitude": "39.1727780", "latitude": "21.5433330"}'
       start='{ "longitude": "39.172407", "latitude": "21.539957"}'></ys-direction>
-
+    <hr>
+    <h1> Custom Component output </h1>
+    <template is="dom-bind">
+      <ys-direction hide-output result="{{result}}"
+        end='{ "longitude": "39.1727780", "latitude": "21.5433330"}'
+        start='{ "longitude": "39.172407", "latitude": "21.539957"}'></ys-direction>
+      <p> It is {{ result.distance.text }} away, Will take you {{ result.duration.text }} walking to get there </p>
+    </template>
     <script>
-      var seedElement = document.querySelector('ys-direction');
+      // var seedElement = document.querySelector('ys-direction');
       // var ironAjax = document.querySelector('iron-ajax');
       // ironAjax.generateRequest().completes.then(ironReq => {
       //
