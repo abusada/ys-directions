@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<html><head><link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/google-map/google-map-directions.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 
@@ -34,7 +34,7 @@ Example using src:
 -->
 
 
-<dom-module id="ys-direction">
+</head><body><dom-module id="ys-direction">
     <template>
         <style for="ys-direction">
             .ys-direction-result {
@@ -58,134 +58,5 @@ Example using src:
         </template>
 
     </template>
-    <script>
-        (function() {
-            'use strict';
-            class YsDirection {
-                beforeRegister() {
-                    this.is = 'ys-direction';
-                    this.properties = {
-                        /**
-                         * Boolean to indicate whether the component should display text output
-                         * Sometime the component user want to have custom display, so just use the
-                         * @type {Object}
-                         */
-                        hideOutput : {
-                          type: Boolean,
-                          value: false
-                        },
-                        /**
-                         * Your mother toungue
-                         */
-                        language: {
-                            type: String,
-                            value: "en"
-                        },
-                        /**
-                         * Travel mode to use. One of 'DRIVING', 'WALKING', 'BICYCLING', 'TRANSIT'.
-                         */
-                        travelMode: {
-                            type: String,
-                            value: "WALKING"
-                        },
-                        /**
-                         * Start address or latlng to get directions from.
-                         */
-                        start: {
-                            type: Object,
-                            value: function() {
-                                return {}
-                            }
-                        },
-                        /**
-                         * End address or latlng for directions to end.
-                         */
-                        end: {
-                            type: Object,
-                            value: function() {
-                                return {}
-                            }
-                        },
-                        /**
-                         * Icon to display next to the rendered text
-                         * Usually represents travelMode
-                         */
-                        icon: {
-                            type: String,
-                            value: "maps:directions-walk"
-                        },
-                        /**
-                         * A Maps API key. To obtain an API key, see developers.google.com/maps/documentation/javascript/tutorial#api_key.
-                         */
-                        apiKey: {
-                            type: String
-                        },
-                        /**
-                         * The response from the directions service.
-                         */
-                        _response: {
-                            type: Object,
-                            observer: "_onResponse"
-                        },
-                        /**
-                         * Instructions Array
-                         */
-                        instructions: {
-                            type: String,
-                            computed: '_computeInstructions(_response)'
-                        },
-                        /**
-                         * Rendered Text
-                         */
-                        result: {
-                            type: "String",
-                            notify: true
-                        },
-                        /**
-                         * Kol google jebt-ha hoon
-                         */
-                        _google: {
-                            type: Object
-                        }
-                    };
-                }
-                ready() {
-                    window.google ?
-                        this.set('_google', window.google) : setTimeout(this.ready.bind(this), 200);
-                }
-                _latLng(point, google) {
-                    return new google.maps.LatLng(point.latitude, point.longitude);
-                }
-                _onResponse(response) {
-                    let shortestRoute = response.routes[0];
-                    this._render(shortestRoute);
-                }
-                _render(route) {
-                    // note here that the 'legs' term here has nothing to do with travelMode being WALKING :D
-                    // https://developers.google.com/maps/documentation/javascript/directions#Legs
-                    let duration = route.legs[0].duration;
-                    let distance = route.legs[0].distance;
-                    this.set('result', {
-                        duration: duration,
-                        distance: distance
-                    });
-                }
-                _computeTotalDistance(result) {
-                    var total = 0;
-                    var myroute = result.routes[0];
-                    for (var i = 0; i < myroute.legs.length; i++) {
-                        total += myroute.legs[i].distance.value;
-                    }
-                    total = total / 1000;
-                    return total;
-                }
-                _computeInstructions(response) {
-                    const route = response.routes[0];
-                    const steps = route.legs[0].steps;
-                    return steps.map(step => step.instructions);
-                }
-            }
-            Polymer(YsDirection);
-        })();
-    </script>
-</dom-module>
+    </dom-module>
+<script src="ys-direction.js"></script></body></html>
