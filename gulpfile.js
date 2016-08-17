@@ -25,7 +25,6 @@ gulp.task('copy', function() {
     .pipe(gulp.dest(buildBranchName));
 });
 
-
 gulp.task('buildBranch', function() {
   return buildBranch({
     folder: buildBranchName,
