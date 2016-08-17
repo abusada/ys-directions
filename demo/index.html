@@ -1,0 +1,50 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>ys-direction Demo</title>
+    <script src="../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+
+    <link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
+    <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+    <link rel="import" href="../ys-direction.html">
+  </head>
+  <body unresolved>
+
+    <h1> Default component output </h1>
+    <ys-direction result="{{result}}"
+      end='{ "longitude": "39.1727780", "latitude": "21.5433330"}'
+      start='{ "longitude": "39.172407", "latitude": "21.539957"}'></ys-direction>
+    <hr>
+    <h1> Custom Component output </h1>
+    <template is="dom-bind">
+      <ys-direction hide-output result="{{result}}"
+        end='{ "longitude": "39.1727780", "latitude": "21.5433330"}'
+        start='{ "longitude": "39.172407", "latitude": "21.539957"}'></ys-direction>
+      <p> It is {{ result.distance.text }} away, Will take you {{ result.duration.text }} walking to get there </p>
+    </template>
+    <script>
+      // var seedElement = document.querySelector('ys-direction');
+      // var ironAjax = document.querySelector('iron-ajax');
+      // ironAjax.generateRequest().completes.then(ironReq => {
+      //
+      // });
+    </script>
+  </body>
+</html>
+
+<!--
+<iron-ajax
+  url="https://api.yamsafer.me/en/api/v3/destinations/saudi-arabia/jeddah/landmark/jeddah-maternity-and-childrens-hospital"
+  handle-as="json"></iron-ajax>
+ -->
